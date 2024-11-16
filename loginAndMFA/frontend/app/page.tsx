@@ -1,7 +1,10 @@
-import Image from "next/image";
+import Navbar from "@/components/navSidebar/navbar";
 
 export default function Home() {
   return (
-    <h1 className="text-4xl">Nextjs</h1>
-  );
+    <>
+      <Navbar />
+      <h1 className = "text-4xl" > Nextjs </h1>
+    </>
+  )
 }
