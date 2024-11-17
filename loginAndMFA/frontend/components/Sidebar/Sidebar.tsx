@@ -10,7 +10,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const context = useContext(SidebarContext);
 
-  // Ensure context is not undefined (if it is, handle appropriately)
   if (!context) {
     throw new Error("SidebarContext is not provided");
   }
@@ -22,14 +21,14 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       <nav className="h-full inline-flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
-            src="https://img.logoipsum.com/243.svg"
+            src="/images/face.png"
             className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
+              expanded ? "w-[4rem]" : "w-0"
             }`}
             alt="Logo"
           />
           <button
-            onClick={() => setExpanded((curr) => !curr)}
+            onClick={() => setExpanded((curr: boolean) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
             {expanded ? (
@@ -48,7 +47,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </button>
         </div>
 
-        <ul className="flex-1 px-3">{children}</ul>
+        <hr />
+        <ul className="flex-1 px-3 flex flex-col items-center pt-8">{children}</ul>
 
         <div className="border-t flex p-3">
           <img
@@ -66,7 +66,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               <h4 className="font-semibold">Linux-DEX</h4>
               <span className="text-xs text-gray-600">linuxdex@linux.com</span>
             </div>
-            {/* <MoreVertical size={20} /> */}
           </div>
         </div>
       </nav>

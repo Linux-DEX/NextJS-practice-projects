@@ -2,14 +2,21 @@
 
 import React, { useContext } from "react";
 import SidebarContext from "../../context/sidebarContext/useContext";
+import Link from "next/link";
 
 interface SidebarItemProps {
-  text: string; // The text displayed in the item
-  active: boolean; // Determines if the item is active
-  alert?: boolean; // Optional alert indicator
+  text: string;
+  active: boolean;
+  alert?: boolean;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ text, icon, to, active, alert }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  text,
+  icon,
+  to,
+  active,
+  alert,
+}) => {
   const { expanded } = useContext(SidebarContext);
 
   return (
@@ -25,16 +32,18 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ text, icon, to, active, alert
         }
     `}
     >
-      <span>
-        <img src={icon} alt="" className="w-6" />
-      </span>
-      <span
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
-        }`}
-      >
-        {text}
-      </span>
+      <Link href={to}>
+        <div className="flex items-center">
+          <img src={icon} alt={text} className="w-6" />
+          <span
+            className={`overflow-hidden transition-all ${
+              expanded ? "w-52 ml-3" : "w-0"
+            }`}
+          >
+            {text}
+          </span>
+        </div>
+      </Link>
       {alert && (
         <div
           className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${

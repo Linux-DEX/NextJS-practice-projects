@@ -1,34 +1,41 @@
+"use client";
+
 import SidebarContextProvider from "@/context/sidebarContext/useSidebarContext";
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import SidebarItem from "../Sidebar/SidebarItem";
+import { usePathname } from "next/navigation";
 
 const ItemSidebar = [
   {
-    to: "/",
-    text: "Home",
-    icon: "https://cdn-icons-png.flaticon.com/128/1946/1946436.png",
-  },
-  {
     to: "/dashboard",
     text: "Dashboard",
-    icon: "https://cdn-icons-png.flaticon.com/128/1828/1828791.png",
+    // icon: "https://cdn-icons-png.flaticon.com/128/1828/1828791.png",
+    icon: "/icons/dashboard.png",
+  },
+  {
+    to: "/todo",
+    text: "Todo",
+    // icon: "https://cdn-icons-png.flaticon.com/128/1946/1946436.png",
+    icon: "/icons/todo.png",
   },
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
+
   return (
     <>
       <SidebarContextProvider>
         <main className="App">
           <Sidebar>
-              {ItemSidebar.map((item, index) => (
+            {ItemSidebar.map((item, index) => (
               <SidebarItem
                 key={index}
                 to={item.to}
                 text={item.text}
                 icon={item.icon}
-                // active={location.pathname === item.to}
+                active={pathname === item.to}
               />
             ))}
           </Sidebar>
