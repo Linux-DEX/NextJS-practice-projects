@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import SidebarContext from "../../context/sidebarContext/useContext";
+import { useSidebar } from "../../context/SidebarProvider";
 import Link from "next/link";
 
 interface SidebarItemProps {
@@ -17,7 +17,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   active,
   alert,
 }) => {
-  const { expanded } = useContext(SidebarContext);
+  const { expanded } = useSidebar();
 
   return (
     <li

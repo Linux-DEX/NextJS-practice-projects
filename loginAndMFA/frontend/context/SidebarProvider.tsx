@@ -1,7 +1,13 @@
-'use client'
+"use client";
 
-import React, { ReactNode, useState } from "react";
-import SidebarContext from "./useContext";
+import React, { ReactNode, useState, createContext, useContext } from "react";
+
+interface SidebarContextType {
+  expanded: boolean;
+  setExpanded: (value: boolean) => void;
+}
+
+const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 interface SidebarContextType {
   expanded: boolean;
@@ -22,6 +28,10 @@ const SidebarContextProvider: React.FC<SidebarContextProviderProps> = ({
       {children}
     </SidebarContext.Provider>
   );
+};
+
+export const useSidebar = () => {
+  return useContext(SidebarContext);
 };
 
 export default SidebarContextProvider;

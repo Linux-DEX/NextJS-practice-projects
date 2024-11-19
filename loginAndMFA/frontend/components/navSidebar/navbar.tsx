@@ -1,6 +1,6 @@
 "use client";
 
-import SidebarContextProvider from "@/context/sidebarContext/useSidebarContext";
+import SidebarContextProvider from "@/context/SidebarProvider";
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import SidebarItem from "../Sidebar/SidebarItem";

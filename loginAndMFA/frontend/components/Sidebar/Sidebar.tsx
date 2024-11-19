@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useContext } from "react";
-import SidebarContext from "../../context/sidebarContext/useContext";
+import { useSidebar } from "../../context/SidebarProvider";
 
 interface SidebarProps {
   children: React.ReactNode;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
-  const context = useContext(SidebarContext);
+  const context = useSidebar();
 
   if (!context) {
     throw new Error("SidebarContext is not provided");
@@ -48,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         </div>
 
         <hr />
-        <ul className="flex-1 px-3 flex flex-col items-center pt-8">{children}</ul>
+        <ul className="flex-1 px-3 flex flex-col justify-center items-center">{children}</ul>
 
         <div className="border-t flex p-3">
           <img
