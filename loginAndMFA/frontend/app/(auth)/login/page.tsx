@@ -3,19 +3,21 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { login, saveToken } from "@/service/auth";
 
 type authUser = {
-  username: string;
+  usermail: string;
   password: string;
 };
 
 const page: React.FC = () => {
   const router = useRouter();
   const [userDetail, setUserDetail] = useState<authUser>({
-    username: "",
+    usermail: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -25,9 +27,16 @@ const page: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("User details submitted: ", userDetail);
+
+    try {
+      const token = await login(userDetail.usermail, userDetail.password);
+      saveToken(token);
+      router.push("/dashboard"); 
+    } catch (err) {
+      setError("Invalid credentials");
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -61,25 +70,23 @@ const page: React.FC = () => {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
                   <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Username
+                    htmlFor="usermail"
+                    className="block text-sm font-medium text-gray-700">
+                    usermail
                   </label>
                   <input
                     type="text"
-                    id="username"
-                    value={userDetail.username}
+                    id="usermail"
+                    value={userDetail.usermail}
                     onChange={handleInputChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="Enter your username"
+                    placeholder="Enter your usermail"
                   />
                 </div>
                 <div className="relative">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                    className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
                   <input
@@ -93,8 +100,7 @@ const page: React.FC = () => {
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="absolute right-3 top-[67%] transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  >
+                    className="absolute right-3 top-[67%] transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
                     {showPassword ? (
                       <span role="img" aria-label="Hide password">
                         👁️
@@ -110,15 +116,13 @@ const page: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleForgotPassword}
-                    className="text-indigo-600 hover:underline"
-                  >
+                    className="text-indigo-600 hover:underline">
                     Forgot Password?
                   </button>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
-                >
+                  className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
                   Login
                 </button>
               </form>
@@ -128,8 +132,7 @@ const page: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCreateAccount}
-                    className="text-indigo-600 font-medium hover:underline"
-                  >
+                    className="text-indigo-600 font-medium hover:underline">
                     Create Account
                   </button>
                 </p>

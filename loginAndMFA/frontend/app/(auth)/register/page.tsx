@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { register, saveToken } from "@/service/auth";
 
 type authUser = {
   username: string;
-  email: string;
+  usermail: string;
   password: string;
   confirmpasswd: string;
 };
@@ -15,11 +16,33 @@ const page: React.FC = () => {
   const router = useRouter();
   const [userDetail, setUserDetail] = useState<authUser>({
     username: "",
-    email: "",
+    usermail: "",
     password: "",
     confirmpasswd: "",
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (userDetail.password !== userDetail.confirmpasswd) {
+      setError("Passwords don't match");
+      return;
+    }
+
+    try {
+      const token = await register(userDetail.username, userDetail.usermail, userDetail.password);
+
+      console.log('token', token);
+
+      // saveToken(token);
+
+      router.push('/login'); 
+    } catch (err) {
+      setError('Registration failed. Please try again.');
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -32,11 +55,6 @@ const page: React.FC = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("User details submitted register: ", userDetail);
-  }
 
   const handleLogin = () => {
     router.push("/login");
@@ -77,18 +95,18 @@ const page: React.FC = () => {
                 </div>
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="usermail"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Email
+                    usermail
                   </label>
                   <input
                     type="text"
-                    id="email"
-                    value={userDetail.email}
+                    id="usermail"
+                    value={userDetail.usermail}
                     onChange={handleInputChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="Enter your email"
+                    placeholder="Enter your usermail"
                   />{" "}
                 </div>{" "}
                 <div className="relative">
