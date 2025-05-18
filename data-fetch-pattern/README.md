@@ -1,0 +1,6 @@
+# NOTES 
+
+## fetching api
+
+
+
